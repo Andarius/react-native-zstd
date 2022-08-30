@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer';
 import { NativeModules, Platform } from 'react-native';
 
 const LINKING_ERROR =
@@ -6,7 +7,9 @@ const LINKING_ERROR =
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo managed workflow\n';
 
-const Zstd = NativeModules.Zstd  ? NativeModules.Zstd  : new Proxy(
+const Zstd = NativeModules.Zstd
+  ? NativeModules.Zstd
+  : new Proxy(
       {},
       {
         get() {
@@ -15,6 +18,14 @@ const Zstd = NativeModules.Zstd  ? NativeModules.Zstd  : new Proxy(
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return Zstd.multiply(a, b);
+export async function compress(
+  data: string,
+  compressLevel: number
+): Promise<Buffer> {
+  const out = await Zstd.compress(data, compressLevel);
+  return Buffer.from(out);
+}
+
+export async function decompress(data: Buffer): Promise<string> {
+  return Zstd.decompress(data);
 }

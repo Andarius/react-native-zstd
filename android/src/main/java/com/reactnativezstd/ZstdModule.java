@@ -7,6 +7,8 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.module.annotations.ReactModule;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableNativeArray;
 
 @ReactModule(name = ZstdModule.NAME)
 public class ZstdModule extends ReactContextBaseJavaModule {
@@ -25,7 +27,7 @@ public class ZstdModule extends ReactContextBaseJavaModule {
     static {
         try {
             // Used to load the 'native-lib' library on application startup.
-            System.loadLibrary("cpp");
+            System.loadLibrary("reactnativezstd");
         } catch (Exception ignored) {
         }
     }
@@ -33,9 +35,15 @@ public class ZstdModule extends ReactContextBaseJavaModule {
     // Example method
     // See https://reactnative.dev/docs/native-modules-android
     @ReactMethod
-    public void multiply(double a, double b, Promise promise) {
-        promise.resolve(nativeMultiply(a, b));
+    public void compress(String data, int compressionLevel, Promise promise) {
+      byte[] res = nativeCompress(data, compressionLevel);
+      WritableArray output = new WritableNativeArray();
+      for (byte re : res) {
+        output.pushInt(re);
+      }
+      promise.resolve(output);
+
     }
 
-    public static native double nativeMultiply(double a, double b);
+    public static native byte[] nativeCompress(String data, int compressionLevel);
 }
