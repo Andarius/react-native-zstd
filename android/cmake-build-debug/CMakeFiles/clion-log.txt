@@ -1,0 +1,9 @@
+/snap/clion/204/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/snap/clion/204/bin/ninja/linux/ninja -G Ninja -S /home/julien/Projects/react-native-zstd/android -B /home/julien/Projects/react-native-zstd/android/cmake-build-debug
+-- ZSTD VERSION: 1.5.3
+-- CMAKE_INSTALL_PREFIX: /usr/local
+-- CMAKE_INSTALL_LIBDIR: lib
+-- ZSTD_LEGACY_SUPPORT not defined!
+-- ZSTD_MULTITHREAD_SUPPORT is enabled
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/julien/Projects/react-native-zstd/android/cmake-build-debug

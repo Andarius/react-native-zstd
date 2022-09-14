@@ -1,0 +1,165 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10.2"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "_zstd",
+					"childIndexes" : 
+					[
+						2
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-_zstd-Debug-4751d239d624ff922bc5.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.8.12"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "/home/julien/Projects/react-native-zstd/externals/zstd/build/cmake",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "_zstd/lib",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-_zstd.lib-Debug-16b485a3505f2d82e1ec.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.8.12"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 2,
+					"source" : "/home/julien/Projects/react-native-zstd/externals/zstd/build/cmake/lib",
+					"targetIndexes" : 
+					[
+						1,
+						2,
+						4
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "reactnativezstd",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						2
+					],
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "zstd",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "libzstd",
+					"parentIndex" : 1,
+					"targetIndexes" : 
+					[
+						1,
+						2,
+						4
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "clean-all::@c1c58bd1fde19c3ef434",
+					"jsonFile" : "target-clean-all-Debug-99d427da5820af391ed6.json",
+					"name" : "clean-all",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "libzstd_shared::@bfba271493b1c4e57663",
+					"jsonFile" : "target-libzstd_shared-Debug-233d67a6669dd19f6945.json",
+					"name" : "libzstd_shared",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "libzstd_static::@bfba271493b1c4e57663",
+					"jsonFile" : "target-libzstd_static-Debug-5ad80dcbd43e6658af2f.json",
+					"name" : "libzstd_static",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reactnativezstd::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reactnativezstd-Debug-d429b6f2f1a11b590aac.json",
+					"name" : "reactnativezstd",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "uninstall::@bfba271493b1c4e57663",
+					"jsonFile" : "target-uninstall-Debug-e5e7ddbf5c37233507d8.json",
+					"name" : "uninstall",
+					"projectIndex" : 2
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/julien/Projects/react-native-zstd/android/cmake-build-debug",
+		"source" : "/home/julien/Projects/react-native-zstd/android"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}

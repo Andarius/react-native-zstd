@@ -232,6 +232,7 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+//          Needed for breakpoints to work
             packagingOptions {
               doNotStrip '**/*.so'
             }

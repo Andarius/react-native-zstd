@@ -39,6 +39,7 @@ android {
       cmake {
         cppFlags "-O2 -frtti -fexceptions -Wall -fstack-protector-all"
         abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
+
       }
     }
   }
@@ -53,6 +54,7 @@ android {
       minifyEnabled false
     }
     debug {
+        // Needed for breakpoints to work
         packagingOptions {
             doNotStrip '**/*.so'
         }
