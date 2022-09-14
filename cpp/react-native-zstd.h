@@ -1,9 +1,22 @@
-#ifndef EXAMPLE_H
-#define EXAMPLE_H
+#ifndef RNZSTD_H
+#define RNZSTD_H
 
-namespace example {
-  extern "C" char* compress(const char* data, int compressionLevel, unsigned int &compressedSizeOut);
-  extern "C" char* decompress(const char* data, unsigned int &decompressedSizeOut);
+#include <string>
+#include <stdexcept>
+
+namespace rnzstd {
+    extern "C" uint8_t *compress(const char *buffIn,
+                                 int compressionLevel,
+                                 unsigned int &compressedSizeOut);
+    extern "C" const char *decompress(const uint8_t *buffIn,
+                                      size_t sourceSize,
+                                      unsigned int &decompressedSizeOut);
+
+    class ZstdError : public std::runtime_error {
+    public:
+        explicit ZstdError(const std::string &msg) : std::runtime_error{msg} {}
+    };
+
 }
 
-#endif /* EXAMPLE_H */
+#endif /* RNZSTD_H */

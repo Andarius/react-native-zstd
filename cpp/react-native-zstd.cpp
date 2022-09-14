@@ -1,47 +1,51 @@
 #include "react-native-zstd.h"
 #include "zstd.h"
 #include <cstring>
-#include <iostream> // exit
 
-//class ZstdError : public std::exception {
-//
-//    size_t code;
-//
-//    const char *what() const throw() {
-//        return ZSTD_getErrorName(code);
-//    }
-//};
 
-namespace example {
+namespace rnzstd {
 
-    char *compress(const char *data, int compressionLevel, unsigned int &compressedSizeOut) {
-        int const inputSize = (int) strlen(data);
+
+    uint8_t *compress(const char *buffIn, int compressionLevel, unsigned int &compressedSizeOut) {
+        int const inputSize = (int) strlen(buffIn);
 
         size_t const outputSize = ZSTD_compressBound(inputSize);
-        char *const outputBuff = new char[outputSize];
+        auto buffOut = new uint8_t[outputSize];
 
-        size_t const compressedSize = ZSTD_compress(outputBuff, outputSize, data, inputSize,
+        size_t const compressedSize = ZSTD_compress(buffOut, outputSize, buffIn, inputSize,
                                                     compressionLevel);
         if (ZSTD_isError(compressedSize)) {
-//            std::cout << ZSTD_getErrorName(compressedSize) << std::endl;
-            exit(1);
+            throw ZstdError(ZSTD_getErrorName(compressedSize));
         }
         compressedSizeOut = compressedSize;
 
-        return outputBuff;
+        return buffOut;
     }
 
-    char *decompress(const char *data, unsigned int &decompressedSizeOut) {
-        size_t cSize = 0;
+    const char *decompress(const u_int8_t* buffIn,
+                           size_t sourceSize,
+                           unsigned int &decompressedSizeOut) {
 
-        unsigned long long const outputSize = ZSTD_getFrameContentSize(data, cSize);
 
-        char *const outputBuff = new char[outputSize];
+        unsigned long long const outputSize = ZSTD_getFrameContentSize(buffIn, sourceSize);
+        if (outputSize == ZSTD_CONTENTSIZE_ERROR) {
+            throw ZstdError("Not compressed by zstd");
+        }
+        if (outputSize == ZSTD_CONTENTSIZE_UNKNOWN) {
+            throw ZstdError("Original size unknown");
+        }
 
-        size_t const dSize = ZSTD_decompress(outputBuff, outputSize, data, cSize);
+        auto const buffOut = new char[outputSize];
+        size_t const dSize = ZSTD_decompress(buffOut, outputSize, buffIn, sourceSize);
         decompressedSizeOut = dSize;
-        return outputBuff;
-    }
 
+        /* When zstd knows the content size, it will error if it doesn't match. */
+        if (dSize != outputSize) {
+            throw ZstdError("Impossible because zstd will check this condition");
+        }
+
+        return buffOut;
+
+    }
 
 }

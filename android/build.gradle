@@ -52,6 +52,11 @@ android {
     release {
       minifyEnabled false
     }
+    debug {
+        packagingOptions {
+            doNotStrip '**/*.so'
+        }
+    }
   }
 
   lintOptions {
