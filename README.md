@@ -5,15 +5,26 @@ ZSTD bindings for React-Native
 ```sh
 npm install react-native-zstd
 ```
+or
+```sh
+yarn add react-native-zstd
+```
 
 ## Usage
 
 ```js
-import { multiply } from "react-native-zstd";
+import { compress, decompress } from "react-native-zstd";
+import { Buffer } from 'buffer';
 
-// ...
+// Compress
+const compressionLevel: number = 3
+const compressed: Buffer = multiply("Hello World!", compressionLevel);
+console.log(compressed.toString('base64'))
 
-const result = await multiply(3, 7);
+// Decompress
+const decompressed: string = decompress(compressed);
+console.log(`decompressed: ${compressed}`)
+
 ```
 
 ## Contributing
