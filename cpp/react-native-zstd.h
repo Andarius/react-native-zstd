@@ -5,10 +5,10 @@
 #include <stdexcept>
 
 namespace rnzstd {
-    extern "C" uint8_t *compress(const char *buffIn,
+    uint8_t *compress(const char *buffIn,
                                  int compressionLevel,
                                  unsigned int &compressedSizeOut);
-    extern "C" const char *decompress(const uint8_t *buffIn,
+    const char *decompress(const uint8_t *buffIn,
                                       size_t sourceSize,
                                       unsigned int &decompressedSizeOut);
 

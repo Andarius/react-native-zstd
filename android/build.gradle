@@ -143,9 +143,9 @@ repositories {
 
 
 dependencies {
-    //noinspection GradleDynamicVersion
+  //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
-// From node_modules
+  // From node_modules
 }
 
 if (isNewArchitectureEnabled()) {
@@ -155,3 +155,4 @@ if (isNewArchitectureEnabled()) {
     codegenJavaPackageName = "com.reactnativezstd"
   }
 }
+

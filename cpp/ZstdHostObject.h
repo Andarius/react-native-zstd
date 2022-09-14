@@ -5,7 +5,7 @@
 #ifndef REACTNATIVEZSTD_ZSTDHOSTOBJECT_H
 #define REACTNATIVEZSTD_ZSTDHOSTOBJECT_H
 
-#include <jsi-utils/JSIUtils.h>
+#include <JSIUtils.h>
 
 namespace rnzstd {
 

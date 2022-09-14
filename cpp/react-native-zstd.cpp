@@ -1,5 +1,6 @@
 #include "react-native-zstd.h"
 #include "zstd.h"
+
 #include <cstring>
 
 
@@ -25,8 +26,6 @@ namespace rnzstd {
     const char *decompress(const u_int8_t* buffIn,
                            size_t sourceSize,
                            unsigned int &decompressedSizeOut) {
-
-
         unsigned long long const outputSize = ZSTD_getFrameContentSize(buffIn, sourceSize);
         if (outputSize == ZSTD_CONTENTSIZE_ERROR) {
             throw ZstdError("Not compressed by zstd");

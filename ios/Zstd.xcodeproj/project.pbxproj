@@ -25,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libZstd.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZstd.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		39B94D2E28D219410057E451 /* libzstd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzstd.a; path = ../externals/zstd/lib/libzstd.a; sourceTree = "<group>"; };
 		5E46D8CB2428F78900513E24 /* example.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = example.cpp; path = ../cpp/example.cpp; sourceTree = "<group>"; };
 		5E46D8CC2428F78900513E24 /* example.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = example.h; path = ../cpp/example.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* Zstd.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Zstd.mm; sourceTree = "<group>"; };
@@ -49,6 +50,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		39B94D2D28D219410057E451 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				39B94D2E28D219410057E451 /* libzstd.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
@@ -56,6 +65,7 @@
 				5E46D8CC2428F78900513E24 /* example.h */,
 				B3E7B5891CC2AC0600A0062D /* Zstd.mm */,
 				134814211AA4EA7D00B7C361 /* Products */,
+				39B94D2D28D219410057E451 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -227,6 +237,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
+					"/Users/andarius/Projects/react-native-zstd/externals/zstd/lib",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
@@ -243,6 +254,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
+					"/Users/andarius/Projects/react-native-zstd/externals/zstd/lib",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";

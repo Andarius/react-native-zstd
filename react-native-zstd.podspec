@@ -3,6 +3,8 @@ require "json"
 package = JSON.parse(File.read(File.join(__dir__, "package.json")))
 folly_compiler_flags = '-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32'
 
+zstd_compiler_flags = '-x objective-c++ -Wno-deprecated-declarations'
+
 Pod::Spec.new do |s|
   s.name         = "react-native-zstd"
   s.version      = package["version"]
@@ -14,7 +16,18 @@ Pod::Spec.new do |s|
   s.platforms    = { :ios => "10.0" }
   s.source       = { :git => "https://github.com/Andarius/react-native-zstd.git", :tag => "#{s.version}" }
 
-  s.source_files = "ios/**/*.{h,m,mm}", "cpp/**/*.{h,cpp}"
+  s.source_files = "ios/**/*.{h,m,mm}", "cpp/**/*.{h,cpp}",
+                    "externals/zstd/lib/zstd.h",
+                    "externals/zstd/lib/common/*.{h,c}",
+                    "externals/zstd/lib/compress/*.{h,c}",
+                    "externals/zstd/lib/decompress/*.{h,c,S}"
+
+  s.compiler_flags = zstd_compiler_flags
+
+  s.pod_target_xcconfig    = {
+    "CLANG_CXX_LANGUAGE_STANDARD" => "c++11"
+  }
+
 
   s.dependency "React-Core"
 
