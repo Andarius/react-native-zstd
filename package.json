@@ -25,7 +25,7 @@
     "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "prepare": "git submodule update --init --recursive && bob build",
+    "prepare": "bob build && git submodule update --init --recursive",
     "release": "release-it",
     "example": "yarn --cwd example",
     "bootstrap": "git submodule update --init --recursive && yarn example && yarn && yarn example pods"
