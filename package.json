@@ -25,10 +25,10 @@
     "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "prepare": "bob build",
+    "prepare": "git submodule update --init --recursive && bob build",
     "release": "release-it",
     "example": "yarn --cwd example",
-    "bootstrap": "yarn example && yarn && yarn example pods"
+    "bootstrap": "git submodule update --init --recursive && yarn example && yarn && yarn example pods"
   },
   "keywords": [
     "react-native",
