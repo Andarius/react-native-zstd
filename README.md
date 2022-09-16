@@ -12,13 +12,13 @@ yarn add react-native-zstd
 
 ## Usage
 
-```js
+```ts
 import { compress, decompress } from "react-native-zstd";
 import { Buffer } from 'buffer';
 
 // Compress
 const compressionLevel: number = 3;
-const compressed: Buffer = multiply("Hello World!", compressionLevel);
+const compressed: Buffer = compress("Hello World!", compressionLevel);
 console.log(compressed.toString('base64'))
 
 // Decompress
