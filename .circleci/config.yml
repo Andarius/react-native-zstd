@@ -88,6 +88,9 @@ jobs:
           name: Authenticate with registry
           command: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
       - run:
+          name: Adding github.com to known hosts
+          command: ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - run:
           name: Release
           command: yarn release --ci
 
