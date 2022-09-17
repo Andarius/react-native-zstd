@@ -81,7 +81,7 @@ jobs:
             yarn prepare
 
   release-package:
-    executor: default:
+    executor: default
     steps:
       - attach_project
       - run:
