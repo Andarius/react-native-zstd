@@ -93,6 +93,12 @@ jobs:
 
 workflows:
   build-and-test:
+    when:
+      and:
+        - not:
+            matches:
+              pattern: '^main$'
+              value: << pipeline.git.branch >>
     jobs:
       - install-dependencies
       - lint:
