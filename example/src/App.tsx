@@ -13,8 +13,8 @@ export default function App() {
     const compressed: Buffer = compress(_text, 3);
     setResult(compressed.toString('base64'));
     try {
-      const decompressed: string = decompress(compressed);
-      setDecompressed(decompressed);
+      const _decompressed: string = decompress(compressed);
+      setDecompressed(_decompressed);
     } catch (err) {
       console.log(err);
     }
