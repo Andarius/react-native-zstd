@@ -87,6 +87,9 @@ jobs:
       - run:
           name: Authenticate with registry
           command: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+      - run:
+          name: Release
+          command: yarn release
 
 workflows:
   build-and-test:
@@ -107,7 +110,7 @@ workflows:
 
   release:
     when:
-      equal: [ main, << pipeline.git.branch >> ]
+      equal: [main, << pipeline.git.branch >>]
     jobs:
       - install-dependencies
       - lint:
