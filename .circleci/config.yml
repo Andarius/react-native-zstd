@@ -89,7 +89,7 @@ jobs:
           command: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
       - run:
           name: Release
-          command: yarn release
+          command: yarn release --ci
 
 workflows:
   build-and-test:
