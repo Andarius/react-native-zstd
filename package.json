@@ -32,7 +32,6 @@
     "prepare": "bob build",
     "release": "release-it",
     "example": "yarn --cwd example",
-    "postinstall": "ls -alh",
     "bootstrap": "git submodule update --init --recursive && yarn example && yarn && yarn example pods"
   },
   "keywords": [
