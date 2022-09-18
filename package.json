@@ -15,6 +15,7 @@
     "cpp",
     "react-native-zstd.podspec",
     "externals/zstd/lib/zstd.h",
+    "externals/zstd/lib/zstd_errors.h",
     "externals/zstd/lib/common",
     "externals/zstd/lib/compress",
     "externals/zstd/lib/decompress",
