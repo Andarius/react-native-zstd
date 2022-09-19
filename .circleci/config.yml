@@ -100,8 +100,6 @@ jobs:
       - run:
           name: Release to NPM
           command: |
-            git config --global user.email "julien.brayere@obitrain.com"
-            git config --global user.name "CircleCI"
             yarn release --ci
 
 workflows:
