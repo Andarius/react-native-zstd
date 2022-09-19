@@ -1,6 +1,6 @@
 {
   "name": "react-native-zstd",
-  "version": "0.0.0",
+  "version": "0.3.1",
   "description": "ZSTD for React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -111,7 +111,8 @@
     },
     "plugins": {
       "@release-it/conventional-changelog": {
-        "preset": "angular"
+        "preset": "angular",
+        "infile": "CHANGELOG.md"
       }
     }
   },
