@@ -33,6 +33,8 @@ namespace rnzstd {
 
     jsi::Value JSIDecompress(jsi::Runtime &runtime,
                              jsi::ArrayBuffer &buffIn) {
+        throw new jsi::JSError(runtime, "Hello");
+
         unsigned int compressedSizeOut;
         const auto buffSize = buffIn.size(runtime);
         const auto _buffIn = buffIn.data(runtime);
@@ -56,11 +58,11 @@ namespace rnzstd {
         this->fields.insert(GET_FIELD("decompress", {
             CHECK(count != 1, "decompress(...) expects 1 argument")
             jsi::ArrayBuffer buffIn = arguments[0].getObject(runtime).getArrayBuffer(runtime);
-           try {
+            try {
                 return JSIDecompress(runtime, buffIn);
-           } catch(const ZstdError &err){
-               throw jsi::JSError(runtime, err.what());
-           }
+            } catch (const ZstdError &err) {
+                throw jsi::JSError(runtime, err.what());
+            }
         }));
     }
 
