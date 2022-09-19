@@ -1,8 +1,5 @@
 version: 2.1
 
-orbs:
-  gh: circleci/github-cli@2.1.0
-
 executors:
   default:
     docker:
@@ -93,10 +90,14 @@ jobs:
     executor: default
     steps:
       - attach_project
-      - gh/setup
       - run:
           name: Authenticate with registry
           command: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+      - run:
+          name: Adding github.com to known hosts
+          command: |
+            mkdir -p ~/.ssh
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
       - run:
           name: Release to NPM and github
           command: yarn release --ci
