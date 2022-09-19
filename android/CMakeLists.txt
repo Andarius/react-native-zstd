@@ -13,7 +13,6 @@ set(ZSTD_BUILD_TESTS OFF)
 
 add_subdirectory(../externals/zstd/build/cmake _zstd)
 
-
 #
 find_package(fbjni REQUIRED CONFIG)
 

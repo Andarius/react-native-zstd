@@ -33,7 +33,6 @@ namespace rnzstd {
 
     jsi::Value JSIDecompress(jsi::Runtime &runtime,
                              jsi::ArrayBuffer &buffIn) {
-        throw new jsi::JSError(runtime, "Hello");
         unsigned int compressedSizeOut;
         const auto buffSize = buffIn.size(runtime);
         const auto _buffIn = buffIn.data(runtime);
