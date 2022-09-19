@@ -1,6 +1,5 @@
 version: 2.1
 
-
 executors:
   default:
     docker:
@@ -104,7 +103,6 @@ jobs:
           command: |
             git config --global user.email "julien.brayere@obitrain.com"
             git config --global user.name "CircleCI"
-            echo ${GITHUB_TOKEN}
             yarn release --ci
 
 workflows:
