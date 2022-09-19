@@ -98,8 +98,9 @@ jobs:
           name: Authenticate with registry
           command: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
       - run:
-          name: Release to NPM
+          name: Release to NPM and github
           command: |
+            echo ${GITHUB_TOKEN}
             yarn release --ci
 
 workflows:
