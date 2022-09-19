@@ -1,5 +1,12 @@
 
 
+# 0.4.0 (2022-09-19)
+
+
+### Features
+
+* first commit ([fdfd5d0](https://github.com/Andarius/react-native-zstd/commit/fdfd5d090eeba69ce791f0bbc8f5396c15d8d641))
+
 ## [0.3.1](https://github.com/Andarius/react-native-zstd/compare/v0.3.0...v0.3.1) (2022-09-19)
 
 # 0.3.0 (2022-09-19)
