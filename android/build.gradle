@@ -1,16 +1,16 @@
 buildscript {
   repositories {
-      google()
-      mavenCentral()
+    google()
+    mavenCentral()
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.5.3'
+    classpath 'com.android.tools.build:gradle:7.0.4'
   }
 }
 
 def isNewArchitectureEnabled() {
-  return rootProject.hasProperty("newArchEnabled") &&  rootProject.getProperty("newArchEnabled") == "true"
+  return rootProject.hasProperty("newArchEnabled") && rootProject.getProperty("newArchEnabled") == "true"
 }
 
 apply plugin: 'com.android.library'
@@ -39,10 +39,22 @@ android {
       cmake {
         cppFlags "-O2 -frtti -fexceptions -Wall -fstack-protector-all"
         abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
-
+        arguments "-DANDROID_STL=c++_shared"
       }
     }
   }
+
+   // See https://github.com/facebookincubator/fbjni/issues/50
+  buildFeatures {
+    prefab true
+  }
+  dependencies {
+    implementation 'com.facebook.fbjni:fbjni:0.3.0'
+  }
+  configurations {
+    all*.exclude module: 'fbjni-java-only'
+  }
+
   externalNativeBuild {
     cmake {
       path "CMakeLists.txt"
@@ -54,10 +66,15 @@ android {
       minifyEnabled false
     }
     debug {
-        // Needed for breakpoints to work
-        packagingOptions {
-            doNotStrip '**/*.so'
-        }
+      // Needed for breakpoints to work
+      packagingOptions {
+        doNotStrip '**/*.so'
+        pickFirst 'lib/**/libc++_shared.so'
+        pickFirst 'lib/**/libc++_shared.so'
+//         jniLibs {
+//           pickFrom('libc++_shared.so', ':react-native-zstd')
+//         }
+      }
     }
   }
 
@@ -136,7 +153,7 @@ repositories {
   if (!found) {
     throw new GradleException(
       "${project.name}: unable to locate React Native android sources. " +
-      "Ensure you have you installed React Native as a dependency in your project and try again."
+        "Ensure you have you installed React Native as a dependency in your project and try again."
     )
   }
 }
