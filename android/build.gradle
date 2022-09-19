@@ -27,6 +27,7 @@ def getExtOrIntegerDefault(name) {
   return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['Zstd_' + name]).toInteger()
 }
 
+
 android {
   ndkVersion getExtOrDefault('ndkVersion')
   compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
@@ -44,15 +45,20 @@ android {
     }
   }
 
-   // See https://github.com/facebookincubator/fbjni/issues/50
+  // See https://github.com/facebookincubator/fbjni/issues/50
   buildFeatures {
     prefab true
   }
   dependencies {
     implementation 'com.facebook.fbjni:fbjni:0.3.0'
   }
-  configurations {
-    all*.exclude module: 'fbjni-java-only'
+
+  packagingOptions {
+    excludes = [
+      "**/libc++_shared.so",
+      "**/libfbjni.so",
+    ]
+    doNotStrip '**/*.so'
   }
 
   externalNativeBuild {
@@ -69,12 +75,12 @@ android {
       // Needed for breakpoints to work
       packagingOptions {
         doNotStrip '**/*.so'
-        pickFirst 'lib/**/libc++_shared.so'
-        pickFirst 'lib/**/libc++_shared.so'
-//         jniLibs {
-//           pickFrom('libc++_shared.so', ':react-native-zstd')
-//         }
       }
+      //
+      minifyEnabled false
+      debuggable true
+      jniDebuggable true
+      renderscriptDebuggable true
     }
   }
 
@@ -86,6 +92,7 @@ android {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
   }
+
 }
 
 repositories {
@@ -172,4 +179,3 @@ if (isNewArchitectureEnabled()) {
     codegenJavaPackageName = "com.reactnativezstd"
   }
 }
-

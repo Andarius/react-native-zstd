@@ -235,8 +235,6 @@ android {
 //          Needed for breakpoints to work
             packagingOptions {
               doNotStrip '**/*.so'
-              pickFirst 'lib/**/libc++_shared.so'
-              pickFirst 'lib/**/libfbjni.so'
             }
         }
         release {
