@@ -1,7 +1,5 @@
 version: 2.1
 
-orbs:
-  gh: circleci/github-cli@2.1.0
 
 executors:
   default:
@@ -23,11 +21,11 @@ jobs:
       - attach_project
       - restore_cache:
           keys:
-            - dependencies-{{ checksum "package-lock.json" }}
+            - dependencies-{{ checksum "package.json" }}
             - dependencies-
       - restore_cache:
           keys:
-            - dependencies-example-{{ checksum "example/package-lock.json" }}
+            - dependencies-example-{{ checksum "example/package.json" }}
             - dependencies-example-
       - run:
           name: Cloning submodule
@@ -38,11 +36,11 @@ jobs:
             yarn install --cwd example --frozen-lockfile
             yarn install --frozen-lockfile
       - save_cache:
-          key: dependencies-{{ checksum "package-lock.json" }}
+          key: dependencies-{{ checksum "package.json" }}
           paths:
             - node_modules
       - save_cache:
-          key: dependencies-example-{{ checksum "example/package-lock.json" }}
+          key: dependencies-example-{{ checksum "example/package.json" }}
           paths:
             - example/node_modules
       - persist_to_workspace:
@@ -93,7 +91,6 @@ jobs:
     executor: default
     steps:
       - attach_project
-      - gh/setup
       - run:
           name: Authenticate with registry
           command: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
