@@ -1,6 +1,6 @@
 {
   "name": "react-native-zstd",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "ZSTD for React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
