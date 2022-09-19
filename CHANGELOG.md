@@ -1,5 +1,7 @@
 
 
+## [0.4.22](https://github.com/Andarius/react-native-zstd/compare/v0.4.21...v0.4.22) (2022-09-19)
+
 ## [0.4.21](https://github.com/Andarius/react-native-zstd/compare/v0.4.20...v0.4.21) (2022-09-19)
 
 ## [0.4.20](https://github.com/Andarius/react-native-zstd/compare/v0.4.19...v0.4.20) (2022-09-19)
