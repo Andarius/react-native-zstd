@@ -17,6 +17,7 @@ import com.facebook.react.bridge.UIManager;
 import com.facebook.react.fabric.ComponentFactory;
 import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
+import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
 import com.example.reactnativezstd.BuildConfig;
 import com.example.reactnativezstd.newarchitecture.components.MainComponentsRegistry;
