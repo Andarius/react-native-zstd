@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 import { compress, decompress } from 'react-native-zstd';
 
 export default function App() {
@@ -16,15 +16,19 @@ export default function App() {
       const _decompressed: string = decompress(compressed);
       setDecompressed(_decompressed);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }, []);
 
   return (
     <View style={styles.container}>
-      <TextInput onChangeText={_onChangeText} value={text} />
-      <Text>Result (base 64): {result}</Text>
-      <Text>Decompressed: {decompressed}</Text>
+      <Button
+        title="trigger error"
+        color="red"
+        onPress={() => _onChangeText('test')}
+      >
+        <Text>Trigger JSError</Text>
+      </Button>
     </View>
   );
 }
