@@ -1,5 +1,17 @@
 
 
+# [0.6.0](https://github.com/Andarius/react-native-zstd/compare/v0.5.0...v0.6.0) (2023-02-08)
+
+
+### Bug Fixes
+
+* typescript ([52cff8f](https://github.com/Andarius/react-native-zstd/commit/52cff8fdcbb077b44f142a5b3573a4236db333e4))
+
+
+### Features
+
+* support RN 0.71 ([a943615](https://github.com/Andarius/react-native-zstd/commit/a9436150b2981840135b95cd148bad399370769a))
+
 # [0.5.0](https://github.com/Andarius/react-native-zstd/compare/v0.4.0...v0.5.0) (2022-09-19)
 
 
