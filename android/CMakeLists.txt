@@ -14,7 +14,7 @@ set(ZSTD_BUILD_TESTS OFF)
 add_subdirectory(../externals/zstd/build/cmake _zstd)
 
 #
-find_package(fbjni REQUIRED CONFIG)
+# find_package(fbjni REQUIRED CONFIG)
 
 add_library(reactnativezstd
         SHARED
@@ -39,5 +39,5 @@ target_link_libraries(
         reactnativezstd
         PRIVATE
         libzstd_static
-        fbjni::fbjni
+        # fbjni::fbjni
 )

@@ -5,7 +5,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:7.0.4'
+    classpath "com.android.tools.build:gradle:7.2.1"
   }
 }
 
@@ -39,32 +39,23 @@ android {
     externalNativeBuild {
       cmake {
         cppFlags "-O2 -frtti -fexceptions -Wall -fstack-protector-all"
-        abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
-        arguments "-DANDROID_STL=c++_shared"
+        abiFilters "x86", "x86_64", "armeabi-v7a", "arm64-v8a"
       }
     }
   }
 
-  // See https://github.com/facebookincubator/fbjni/issues/50
-  buildFeatures {
-    prefab true
-  }
-  dependencies {
-    implementation 'com.facebook.fbjni:fbjni:0.3.0'
-  }
-
-  packagingOptions {
-    excludes = [
-      "**/libc++_shared.so",
-      "**/libfbjni.so",
-    ]
-    doNotStrip '**/*.so'
-  }
+// TODO: can remove ?
+//   packagingOptions {
+//     excludes = [
+//       "**/libc++_shared.so",
+//       "**/libfbjni.so",
+//     ]
+//     doNotStrip '**/*.so'
+//   }
 
   externalNativeBuild {
     cmake {
       path "CMakeLists.txt"
-      version "3.10.2"
     }
   }
   buildTypes {
@@ -93,85 +84,34 @@ android {
     targetCompatibility JavaVersion.VERSION_1_8
   }
 
+    sourceSets {
+    main {
+      if (isNewArchitectureEnabled()) {
+        java.srcDirs += [
+          "src/newarch",
+          // This is needed to build Kotlin project with NewArch enabled
+          "${project.buildDir}/generated/source/codegen/java"
+        ]
+      } else {
+        java.srcDirs += ["src/oldarch"]
+      }
+    }
+  }
+
 }
 
 repositories {
   mavenCentral()
   google()
-
-  def found = false
-  def defaultDir = null
-  def androidSourcesName = 'React Native sources'
-
-  if (rootProject.ext.has('reactNativeAndroidRoot')) {
-    defaultDir = rootProject.ext.get('reactNativeAndroidRoot')
-  } else {
-    defaultDir = new File(
-      projectDir,
-      '/../../../node_modules/react-native/android'
-    )
-  }
-
-  if (defaultDir.exists()) {
-    maven {
-      url defaultDir.toString()
-      name androidSourcesName
-    }
-
-    logger.info(":${project.name}:reactNativeAndroidRoot ${defaultDir.canonicalPath}")
-    found = true
-  } else {
-    def parentDir = rootProject.projectDir
-
-    1.upto(5, {
-      if (found) return true
-      parentDir = parentDir.parentFile
-
-      def androidSourcesDir = new File(
-        parentDir,
-        'node_modules/react-native'
-      )
-
-      def androidPrebuiltBinaryDir = new File(
-        parentDir,
-        'node_modules/react-native/android'
-      )
-
-      if (androidPrebuiltBinaryDir.exists()) {
-        maven {
-          url androidPrebuiltBinaryDir.toString()
-          name androidSourcesName
-        }
-
-        logger.info(":${project.name}:reactNativeAndroidRoot ${androidPrebuiltBinaryDir.canonicalPath}")
-        found = true
-      } else if (androidSourcesDir.exists()) {
-        maven {
-          url androidSourcesDir.toString()
-          name androidSourcesName
-        }
-
-        logger.info(":${project.name}:reactNativeAndroidRoot ${androidSourcesDir.canonicalPath}")
-        found = true
-      }
-    })
-  }
-
-  if (!found) {
-    throw new GradleException(
-      "${project.name}: unable to locate React Native android sources. " +
-        "Ensure you have you installed React Native as a dependency in your project and try again."
-    )
-  }
 }
 
 
 dependencies {
+  // For < 0.71, this will be from the local maven repo
+  // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
   //noinspection GradleDynamicVersion
-  implementation "com.facebook.react:react-native:+"
-  // From node_modules
+  implementation "com.facebook.react:react-native"
 }
-
 if (isNewArchitectureEnabled()) {
   react {
     jsRootDir = file("../src/")
