@@ -34,7 +34,8 @@
     "prepare": "bob build",
     "release": "release-it",
     "example": "yarn --cwd example",
-    "bootstrap": "git submodule update --init --recursive && yarn example && yarn && yarn example pods"
+    "bootstrap": "git submodule update --init --recursive && yarn example && yarn && yarn example pods",
+    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build"
   },
   "keywords": [
     "react-native",
@@ -54,8 +55,8 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
-    "@evilmartians/lefthook": "^1.2.2",
     "@commitlint/config-conventional": "^17.0.2",
+    "@evilmartians/lefthook": "^1.2.2",
     "@react-native-community/eslint-config": "^3.0.2",
     "@release-it/conventional-changelog": "^5.0.0",
     "@types/jest": "^28.1.2",
@@ -67,6 +68,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^28.1.1",
+    "metro-react-native-babel-preset": "^0.75.0",
     "pod-install": "^0.1.0",
     "prettier": "^2.0.5",
     "react": "18.2.0",
@@ -79,10 +81,14 @@
     "@types/react": "17.0.21"
   },
   "peerDependencies": {
+    "buffer": "^6.0.3",
     "react": "*",
-    "react-native": "*",
-    "buffer": "^6.0.3"
+    "react-native": "*"
   },
+  "engines": {
+    "node": ">= 16.0.0"
+  },
+  "packageManager": "^yarn@1.22.15",
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
@@ -158,5 +164,10 @@
         }
       ]
     ]
+  },
+  "codegenConfig": {
+    "name": "RNZstdSpec",
+    "type": "modules",
+    "jsSrcsDir": "src"
   }
 }
