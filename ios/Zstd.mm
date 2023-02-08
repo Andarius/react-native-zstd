@@ -14,10 +14,10 @@ RCT_EXPORT_MODULE(Zstd)
 
 RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
   NSLog(@"Installing JSI bindings for react-native-zstd...");
-    
+
   RCTBridge* bridge = [RCTBridge currentBridge];
   RCTCxxBridge* cxxBridge = (RCTCxxBridge*)bridge;
-    
+
   if (cxxBridge == nil) {
     return @false;
   }
@@ -37,6 +37,8 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
   NSLog(@"Successfully installed JSI bindings for react-native-zstd");
   return @true;
 }
+
+
 
 
 @end
