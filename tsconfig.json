@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "test-lib": ["./src/index"]
+      "react-native-zstd": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
