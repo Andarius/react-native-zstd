@@ -23,7 +23,7 @@ add_library(reactnativezstd
         ../cpp/jsi-utils/JSIUtils.cpp
         ../cpp/ZstdHostObject.cpp
         #        To avoid: undefined reference to 'facebook::jsi::Value::~Value()'
-        ../node_modules/react-native/ReactCommon/jsi/jsi/jsi.cpp
+        ../../react-native/ReactCommon/jsi/jsi/jsi.cpp
         )
 
 target_include_directories(
@@ -31,7 +31,7 @@ target_include_directories(
         PUBLIC
         ../externals/zstd/lib
         ../cpp
-        ../node_modules/react-native/ReactCommon/jsi
+        ../../react-native/ReactCommon/jsi
 )
 
 
