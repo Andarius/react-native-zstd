@@ -103,7 +103,6 @@ jobs:
           command: |
             git config --global user.email "julien.brayere@obitrain.com"
             git config --global user.name "CircleCI"
-            git status
             yarn release --ci
 
 workflows:
@@ -131,24 +130,24 @@ workflows:
 
   release:
     when:
-      equal: [fix/ci, << pipeline.git.branch >>]
+      equal: [main, << pipeline.git.branch >>]
     jobs:
       - install-dependencies
-      # - lint:
-      #     requires:
-      #       - install-dependencies
-      # - typescript:
-      #     requires:
-      #       - install-dependencies
-      # - unit-tests:
-      #     requires:
-      #       - install-dependencies
+      - lint:
+          requires:
+            - install-dependencies
+      - typescript:
+          requires:
+            - install-dependencies
+      - unit-tests:
+          requires:
+            - install-dependencies
       - build-package:
           requires:
             - install-dependencies
       - release-package:
           requires:
-            # - lint
-            # - typescript
-            # - unit-tests
+            - lint
+            - typescript
+            - unit-tests
             - build-package
