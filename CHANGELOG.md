@@ -1,5 +1,18 @@
 
 
+## [0.6.1](https://github.com/Andarius/react-native-zstd/compare/v0.6.0...v0.6.1) (2024-04-02)
+
+
+### Bug Fixes
+
+* android ([e17fb82](https://github.com/Andarius/react-native-zstd/commit/e17fb823ad08569510bddda58be887c1867ba79f))
+* ci ([b1c446d](https://github.com/Andarius/react-native-zstd/commit/b1c446de62fed2e2acf7092df1e05f304d4b43d4))
+* ci ([7c3997b](https://github.com/Andarius/react-native-zstd/commit/7c3997b06d7979a2858dfbe9a00fc6cf3e47078c))
+* ci ([a52c9b9](https://github.com/Andarius/react-native-zstd/commit/a52c9b9f139ff3ab3e6a309e3b3a64647c5eeabe))
+* ci ([94418f5](https://github.com/Andarius/react-native-zstd/commit/94418f52be91547f2a6edfc1248dc0a33e2220ad))
+* ci ([5348c9b](https://github.com/Andarius/react-native-zstd/commit/5348c9b3070e4b634d806a28da31562a405eb738))
+* ci ([68a5de4](https://github.com/Andarius/react-native-zstd/commit/68a5de443290498e1d4dd50361d488d86930471c))
+
 # [0.6.0](https://github.com/Andarius/react-native-zstd/compare/v0.5.0...v0.6.0) (2023-02-08)
 
 
