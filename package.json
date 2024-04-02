@@ -123,7 +123,7 @@
     "root": true,
     "parser": "@typescript-eslint/parser",
     "extends": [
-        "@react-native",
+      "@react-native",
       "prettier",
       "plugin:jest/recommended"
     ],
