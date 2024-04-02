@@ -3,7 +3,7 @@ version: 2.1
 executors:
   default:
     docker:
-      - image: circleci/node:16
+      - image: cimg/node:20.12.0
     working_directory: ~/project
 
 commands:
@@ -63,7 +63,7 @@ jobs:
       - run:
           name: Typecheck files
           command: |
-            yarn typescript
+            yarn typecheck
 
   unit-tests:
     executor: default
