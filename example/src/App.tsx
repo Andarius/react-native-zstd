@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { Buffer } from 'buffer';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { compress, decompress } from 'react-native-zstd';
 
@@ -10,8 +11,8 @@ export default function App() {
 
   const _onChangeText = React.useCallback((_text: string) => {
     setText(_text);
-    const compressed: Buffer = compress(_text, 3);
-    setResult(compressed.toString('base64'));
+    const compressed = compress(_text, 3);
+    setResult(Buffer.from(compressed).toString('base64'));
     try {
       const _decompressed: string = decompress(compressed);
       setDecompressed(_decompressed);
