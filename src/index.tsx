@@ -1,4 +1,3 @@
-import { Buffer } from 'buffer';
 import { NativeModules, Platform } from 'react-native';
 
 const LINKING_ERROR =
@@ -14,7 +13,7 @@ const ZstdModule = isTurboModuleEnabled
   ? require('./NativeZstd').default
   : NativeModules.Zstd;
 
-const _Zstd = ZstdModule
+const Zstd = ZstdModule
   ? ZstdModule
   : new Proxy(
       {},
@@ -25,23 +24,12 @@ const _Zstd = ZstdModule
       }
     );
 
-interface IZstdNative {
-  compress(data: string, compressLevel: number): Buffer;
-  decompress(data: ArrayBuffer): string;
+export function compress(data: string, compressLevel: number = 3): Uint8Array {
+  const out = Zstd.compress(data, compressLevel);
+  return out;
 }
 
-if ((global as any).__ZSTDProxy == null) {
-  _Zstd.install();
-}
-
-const ZstdNative: IZstdNative = (global as any).__ZSTDProxy;
-
-export function compress(data: string, compressLevel: number = 3): Buffer {
-  const out = ZstdNative.compress(data, compressLevel);
-  return Buffer.from(out);
-}
-
-export function decompress(data: Buffer): string {
-  const out = ZstdNative.decompress(data.buffer);
+export function decompress(data: Uint8Array): string {
+  const out = Zstd.decompress(data);
   return out;
 }

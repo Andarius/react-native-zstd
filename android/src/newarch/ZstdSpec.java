@@ -6,4 +6,5 @@ abstract class ZstdSpec extends NativeZstdSpec {
   ZstdSpec(ReactApplicationContext context) {
     super(context);
   }
+
 }

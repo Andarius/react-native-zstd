@@ -2,24 +2,24 @@ package com.reactnativezstd;
 
 import android.util.Log;
 
+
 import androidx.annotation.NonNull;
 
-import com.facebook.react.bridge.JavaScriptContextHolder;
-import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
-import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.module.annotations.ReactModule;
-import com.facebook.react.bridge.WritableArray;
-import com.facebook.react.bridge.WritableNativeArray;
 
-@ReactModule(name = ZstdModule.NAME)
-public class ZstdModule extends ReactContextBaseJavaModule {
+
+import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.ReactMethod;
+
+
+public class ZstdModule extends ZstdSpec {
   public static final String NAME = "Zstd";
   public static final String CPP_LIB_NAME = "reactnativezstd";
 
-  public ZstdModule(ReactApplicationContext reactContext) {
-    super(reactContext);
+  public ZstdModule(ReactApplicationContext context) {
+    super(context);
   }
 
   @Override
@@ -29,8 +29,8 @@ public class ZstdModule extends ReactContextBaseJavaModule {
   }
 
   static {
+    Log.i(NAME, "Loading C++ library...");
     try {
-      Log.i(NAME, "Loading C++ library...");
       System.loadLibrary(CPP_LIB_NAME);
     } catch (Exception e) {
       Log.e(NAME, "Failed to load C++ library", e);
@@ -38,29 +38,30 @@ public class ZstdModule extends ReactContextBaseJavaModule {
   }
 
 
-  private native void nativeInstall(long jsiPtr);
+  public static native byte[] nativeCompress(String buffIn,
+                                             int compressLevel);
+
+  public static native String nativeDecompress(byte[] buffIn, int sourceSize);
+
 
   @ReactMethod(isBlockingSynchronousMethod = true)
-  public void install() {
-    JavaScriptContextHolder jsContext = getReactApplicationContext().getJavaScriptContextHolder();
-    this.nativeInstall(jsContext.get());
-    Log.i(NAME, "Successfully installed ZSTD JSI bindings");
+  public WritableArray compress(String buffIn, double compressLevel) {
+    byte[] compressedData = nativeCompress(buffIn, (int)compressLevel);
+    WritableArray compressedDataArray = Arguments.createArray();
+    for (byte b : compressedData) {
+        compressedDataArray.pushInt(b);
+    }
+    return compressedDataArray;
+  }
+
+  @ReactMethod(isBlockingSynchronousMethod = true)
+  public String decompress(ReadableArray buffIn) {
+     byte[] byteArray = new byte[buffIn.size()];
+     for (int i = 0; i < buffIn.size(); i++) {
+          byteArray[i] = (byte) buffIn.getInt(i);
+      }
+      return nativeDecompress(byteArray, byteArray.length);
   }
 
 
-//    // Example method
-//    // See https://reactnative.dev/docs/native-modules-android
-//    @ReactMethod
-//    public void compress(String data, int compressionLevel, Promise promise) {
-//
-//      byte[] res = nativeCompress(data, compressionLevel, errorMsg);
-//      WritableArray output = new WritableNativeArray();
-//      for (byte re : res) {
-//        output.pushInt(re);
-//      }
-//      promise.resolve(output, errorMsg);
-//
-//    }
-//
-//    public static native byte[] nativeCompress(String data, int compressionLevel);
 }

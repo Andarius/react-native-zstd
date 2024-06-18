@@ -1,5 +1,7 @@
 # react-native-zstd
 ZSTD bindings for React-Native
+
+
 ## Installation
 
 ```sh
