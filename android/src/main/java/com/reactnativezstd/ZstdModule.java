@@ -6,7 +6,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.JavaScriptContextHolder;
 import com.facebook.react.bridge.ReactApplicationContext;
 
 
@@ -45,7 +44,7 @@ public class ZstdModule extends ZstdSpec {
   public static native String nativeDecompress(byte[] buffIn, int sourceSize);
 
 
-  @Override
+  @ReactMethod(isBlockingSynchronousMethod = true)
   public WritableArray compress(String buffIn, double compressLevel) {
     byte[] compressedData = nativeCompress(buffIn, (int)compressLevel);
     WritableArray compressedDataArray = Arguments.createArray();
@@ -55,7 +54,7 @@ public class ZstdModule extends ZstdSpec {
     return compressedDataArray;
   }
 
-  @Override
+  @ReactMethod(isBlockingSynchronousMethod = true)
   public String decompress(ReadableArray buffIn) {
      byte[] byteArray = new byte[buffIn.size()];
      for (int i = 0; i < buffIn.size(); i++) {
@@ -63,5 +62,6 @@ public class ZstdModule extends ZstdSpec {
       }
       return nativeDecompress(byteArray, byteArray.length);
   }
+
 
 }
