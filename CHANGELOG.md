@@ -1,5 +1,12 @@
 
 
+# [1.0.0](https://github.com/Andarius/react-native-zstd/compare/v0.6.1...v1.0.0) (2024-06-18)
+
+
+### Features
+
+* adding support to new infra ([818f3d2](https://github.com/Andarius/react-native-zstd/commit/818f3d26e98eee45761240134c5b57b563898260))
+
 ## [0.6.1](https://github.com/Andarius/react-native-zstd/compare/v0.6.0...v0.6.1) (2024-04-02)
 
 
