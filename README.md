@@ -20,8 +20,8 @@ import { Buffer } from 'buffer';
 
 // Compress
 const compressionLevel: number = 3;
-const compressed: Buffer = compress("Hello World!", compressionLevel);
-console.log(compressed.toString('base64'))
+const compressed = compress("Hello World!", compressionLevel);
+console.log(Buffer.from(compressed).toString('base64'))
 
 // Decompress
 const decompressed: string = decompress(compressed);
