@@ -16,17 +16,11 @@ set(ZSTD_BUILD_SHARED OFF)
 
 add_subdirectory(../externals/zstd/build/cmake _zstd)
 
-#
-# find_package(fbjni REQUIRED CONFIG)
 
 add_library(reactnativezstd
         SHARED
         ./cpp-adapter.cpp
         ../cpp/react-native-zstd.cpp
-        ../cpp/jsi-utils/JSIUtils.cpp
-        ../cpp/ZstdHostObject.cpp
-        # To avoid: undefined reference to 'facebook::jsi::Value::~Value()'
-        ../node_modules/react-native/ReactCommon/jsi/jsi/jsi.cpp
         )
 
 target_include_directories(
@@ -34,7 +28,6 @@ target_include_directories(
         PUBLIC
         ../externals/zstd/lib
         ../cpp
-        ../node_modules/react-native/ReactCommon/jsi
 )
 
 
@@ -42,5 +35,4 @@ target_link_libraries(
         reactnativezstd
         PRIVATE
         libzstd_static
-        # fbjni::fbjni
 )
