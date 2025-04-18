@@ -1,4 +1,14 @@
+# Changelog
 
+## 1.1.0 (2025-04-18)
+
+* chore: adding eslint config ([4efb911](https://github.com/Andarius/react-native-zstd/commit/4efb911))
+* chore: ci ([616117b](https://github.com/Andarius/react-native-zstd/commit/616117b))
+* chore: ci ([a8736ca](https://github.com/Andarius/react-native-zstd/commit/a8736ca))
+* chore: fix package.json ([f69014c](https://github.com/Andarius/react-native-zstd/commit/f69014c))
+* chore: fix package.json ([9804b8f](https://github.com/Andarius/react-native-zstd/commit/9804b8f))
+* chore: workign ios ([406f783](https://github.com/Andarius/react-native-zstd/commit/406f783))
+* chore: working android ([269c927](https://github.com/Andarius/react-native-zstd/commit/269c927))
 
 ## [1.0.1](https://github.com/Andarius/react-native-zstd/compare/v1.0.0...v1.0.1) (2024-06-19)
 
@@ -96,7 +106,7 @@
 * updating readme ([b7587f4](https://github.com/Andarius/react-native-zstd/commit/b7587f425742ef1db0ece5e4c73a3b1ce6224e8d))
 * working iOS ([07d2747](https://github.com/Andarius/react-native-zstd/commit/07d27479a5845b6c7645b6a23f51b04bbd6b6631))
 
-### Changelog
+##
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
