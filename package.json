@@ -35,7 +35,9 @@
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
     "prepare": "bob build",
     "release": "release-it",
-    "bootstrap": "git submodule update --init --recursive && yarn example install"
+    "bootstrap": "git submodule update --init --recursive && yarn example install",
+    "pod:install": "cd example/ios && pod install",
+    "pod:deintegrate": "cd example/ios && pod deintegrate && rm -rf Pods && rm Podfile.lock"
   },
   "keywords": [
     "react-native",
