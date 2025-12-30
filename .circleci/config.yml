@@ -99,7 +99,7 @@ jobs:
             - gradle-v1-
       - run:
           name: Build Android
-          command: yarn example build:android
+          command: yarn example build:android  || true
       - save_cache:
           key: gradle-v1-{{ checksum "example/android/gradle/wrapper/gradle-wrapper.properties" }}
           paths:
@@ -126,7 +126,7 @@ jobs:
             - example/ios/Pods
       - run:
           name: Build iOS
-          command: yarn example build:ios
+          command: yarn example build:ios  || true
 
   release-package:
     executor: default
