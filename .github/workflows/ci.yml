@@ -162,7 +162,7 @@ jobs:
           git config --global user.name "GitHub Actions"
 
       - name: Release
-        run: yarn release --ci
+        run: yarn release --ci --npm.skipChecks
         env:
           NPM_CONFIG_PROVENANCE: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
