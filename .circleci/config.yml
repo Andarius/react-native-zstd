@@ -7,12 +7,6 @@ executors:
     working_directory: ~/project
     resource_class: medium
 
-  macos:
-    macos:
-      xcode: "16.4.0"
-    working_directory: ~/project
-    resource_class: macos.m1.medium.gen1
-
 commands:
   attach_project:
     steps:
@@ -86,48 +80,6 @@ jobs:
           name: Build package
           command: yarn prepare
 
-  build-android:
-    executor: default
-    docker:
-      - image: cimg/android:2024.10-node
-    resource_class: large
-    steps:
-      - attach_project
-      - restore_cache:
-          keys:
-            - gradle-v1-{{ checksum "example/android/gradle/wrapper/gradle-wrapper.properties" }}
-            - gradle-v1-
-      - run:
-          name: Build Android
-          command: yarn example build:android  || true
-      - save_cache:
-          key: gradle-v1-{{ checksum "example/android/gradle/wrapper/gradle-wrapper.properties" }}
-          paths:
-            - ~/.gradle/caches
-            - ~/.gradle/wrapper
-
-  build-ios:
-    executor: macos
-    steps:
-      - attach_project
-      - restore_cache:
-          keys:
-            - pods-v1-{{ checksum "example/ios/Podfile.lock" }}
-            - pods-v1-
-      - run:
-          name: Install CocoaPods
-          command: |
-            cd example/ios
-            bundle install
-            bundle exec pod install
-      - save_cache:
-          key: pods-v1-{{ checksum "example/ios/Podfile.lock" }}
-          paths:
-            - example/ios/Pods
-      - run:
-          name: Build iOS
-          command: yarn example build:ios  || true
-
   release-package:
     executor: default
     steps:
@@ -170,13 +122,6 @@ workflows:
       - build-package:
           requires:
             - install-dependencies
-      # Native builds run after package is built
-      - build-android:
-          requires:
-            - build-package
-      - build-ios:
-          requires:
-            - build-package
 
   release:
     when:
@@ -195,12 +140,6 @@ workflows:
       - build-package:
           requires:
             - install-dependencies
-      - build-android:
-          requires:
-            - build-package
-      - build-ios:
-          requires:
-            - build-package
       - release-package:
           requires:
             - lint
