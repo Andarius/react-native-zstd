@@ -1,0 +1,17 @@
+{
+  "cxxNamespace": ["zstd"],
+  "ios": {
+    "iosModuleName": "Zstd"
+  },
+  "android": {
+    "androidNamespace": ["zstd"],
+    "androidCxxLibName": "reactnativezstd"
+  },
+  "autolinking": {
+    "Zstd": {
+      "swift": "HybridZstd",
+      "kotlin": "HybridZstd"
+    }
+  },
+  "ignorePaths": ["node_modules", "externals"]
+}

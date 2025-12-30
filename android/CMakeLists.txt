@@ -1,38 +1,43 @@
-cmake_minimum_required(VERSION 3.10.2)
+project(reactnativezstd)
+cmake_minimum_required(VERSION 3.9.0)
 
-project(reactnativezstd CXX)
-
+set(PACKAGE_NAME reactnativezstd)
 set(CMAKE_VERBOSE_MAKEFILE ON)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 20)
 
-#
-set(ZSTD_BUILD_PROGRAMS OFF) # Avoid  Target "zstd" of type EXECUTABLE may not be linked into another target error
+# ZSTD configuration
+set(ZSTD_BUILD_PROGRAMS OFF)
 set(ZSTD_LEGACY_SUPPORT OFF)
 set(ZSTD_BUILD_TESTS OFF)
-#
 set(ZSTD_BUILD_STATIC ON)
 set(ZSTD_BUILD_SHARED OFF)
-#set(CMAKE_BUILD_TYPE Debug)
 
 add_subdirectory(../externals/zstd/build/cmake _zstd)
 
-
-add_library(reactnativezstd
-        SHARED
-        ./cpp-adapter.cpp
-        ../cpp/react-native-zstd.cpp
-        )
-
-target_include_directories(
-        reactnativezstd
-        PUBLIC
-        ../externals/zstd/lib
-        ../cpp
+# Define C++ library and add all sources
+add_library(${PACKAGE_NAME} SHARED
+    src/main/cpp/cpp-adapter.cpp
+    ../cpp/react-native-zstd.cpp
 )
 
+# Add Nitrogen specs
+include(${CMAKE_SOURCE_DIR}/../nitrogen/generated/android/reactnativezstd+autolinking.cmake)
 
+# Set up local includes
+target_include_directories(
+    ${PACKAGE_NAME}
+    PUBLIC
+    ../externals/zstd/lib
+    ../cpp
+    "src/main/cpp"
+)
+
+find_library(LOG_LIB log)
+
+# Link all libraries together
 target_link_libraries(
-        reactnativezstd
-        PRIVATE
-        libzstd_static
+    ${PACKAGE_NAME}
+    ${LOG_LIB}
+    android
+    libzstd_static
 )

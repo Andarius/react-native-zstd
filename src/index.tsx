@@ -1,15 +1,12 @@
-import type { Int32 } from 'react-native/Libraries/Types/CodegenTypes';
-import Zstd from './NativeZstd';
+import { NitroModules } from 'react-native-nitro-modules';
+import type { Zstd } from './Zstd.nitro';
 
-export function compress(
-  data: string,
-  compressLevel: number = 3
-): ReadonlyArray<Int32> {
-  const out = Zstd.compress(data, compressLevel);
-  return out;
+const ZstdHybridObject = NitroModules.createHybridObject<Zstd>('Zstd');
+
+export function compress(data: string, compressLevel: number = 3): ArrayBuffer {
+  return ZstdHybridObject.compress(data, compressLevel);
 }
 
-export function decompress(data: ReadonlyArray<Int32>): string {
-  const out = Zstd.decompress(data);
-  return out;
+export function decompress(data: ArrayBuffer): string {
+  return ZstdHybridObject.decompress(data);
 }

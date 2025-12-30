@@ -1,13 +1,12 @@
 {
   "name": "react-native-zstd",
-  "version": "1.1.0",
+  "version": "1.0.1",
   "description": "ZSTD for React Native",
-  "source": "./src/index.tsx",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
-  "react-native": "src/index",
   "exports": {
     ".": {
+      "source": "./src/index.tsx",
       "types": "./lib/typescript/src/index.d.ts",
       "default": "./lib/module/index.js"
     },
@@ -19,7 +18,10 @@
     "android",
     "ios",
     "cpp",
-    "react-native-zstd.podspec",
+    "nitrogen",
+    "nitro.json",
+    "*.podspec",
+    "react-native.config.js",
     "externals/zstd/lib/zstd.h",
     "externals/zstd/lib/zstd_errors.h",
     "externals/zstd/lib/common",
@@ -27,6 +29,10 @@
     "externals/zstd/lib/decompress",
     "!lib/typescript/example",
     "!android/build",
+    "!android/gradle",
+    "!android/gradlew",
+    "!android/gradlew.bat",
+    "!android/local.properties",
     "!ios/build",
     "!**/__tests__",
     "!**/__fixtures__",
@@ -36,11 +42,12 @@
   "scripts": {
     "example": "yarn workspace react-native-zstd-example",
     "test": "jest",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
+    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib nitrogen",
     "prepare": "bob build",
-    "release": "release-it",
+    "nitrogen": "nitrogen",
+    "release": "release-it --only-version",
     "bootstrap": "git submodule update --init --recursive && yarn example install",
     "pod:install": "cd example/ios && pod install",
     "pod:deintegrate": "cd example/ios && pod deintegrate && rm -rf Pods && rm Podfile.lock"
@@ -63,38 +70,41 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^19.6.0",
-    "@eslint/compat": "^1.2.7",
-    "@eslint/eslintrc": "^3.3.0",
-    "@eslint/js": "^9.22.0",
-    "@evilmartians/lefthook": "^1.5.0",
-    "@react-native-community/cli": "15.0.1",
-    "@react-native/eslint-config": "^0.78.0",
-    "@release-it/conventional-changelog": "^9.0.2",
-    "@types/jest": "^29.5.5",
-    "@types/react": "^19.0.0",
-    "commitlint": "^19.6.1",
-    "del-cli": "^5.1.0",
-    "eslint": "^9.22.0",
-    "eslint-config-prettier": "^10.1.1",
-    "eslint-plugin-prettier": "^5.2.3",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/compat": "^1.3.2",
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.35.0",
+    "@react-native/babel-preset": "0.83.0",
+    "@react-native/eslint-config": "0.83.0",
+    "@release-it/conventional-changelog": "^10.0.1",
+    "@types/jest": "^29.5.14",
+    "@types/react": "^19.2.0",
+    "commitlint": "^19.8.1",
+    "del-cli": "^6.0.0",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
     "jest": "^29.7.0",
-    "prettier": "^3.0.3",
-    "react": "19.0.0",
-    "react-native": "0.78.2",
-    "react-native-builder-bob": "^0.40.6",
-    "release-it": "^17.10.0",
-    "turbo": "^1.10.7",
-    "typescript": "^5.2.2"
+    "lefthook": "^2.0.3",
+    "nitrogen": "^0.32.0",
+    "prettier": "^2.8.8",
+    "react": "19.2.0",
+    "react-native": "0.83.0",
+    "react-native-builder-bob": "^0.40.17",
+    "react-native-nitro-modules": "^0.32.0",
+    "release-it": "^19.0.4",
+    "turbo": "^2.5.6",
+    "typescript": "^5.9.2"
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-nitro-modules": "^0.32.0"
   },
   "workspaces": [
     "example"
   ],
-  "packageManager": "yarn@3.6.1+sha256.811210abb5fb5751da12ead8a9cbc0c150b07e43ac9cbedec6752d22abfd2bd6",
+  "packageManager": "yarn@4.11.0",
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
@@ -109,7 +119,7 @@
   },
   "release-it": {
     "git": {
-      "commitMessage": "chore: release ${version} [skip ci]",
+      "commitMessage": "chore: release ${version}",
       "tagName": "v${version}"
     },
     "npm": {
@@ -120,8 +130,9 @@
     },
     "plugins": {
       "@release-it/conventional-changelog": {
-        "preset": "angular",
-        "infile": "CHANGELOG.md"
+        "preset": {
+          "name": "angular"
+        }
       }
     }
   },
@@ -136,7 +147,13 @@
     "source": "src",
     "output": "lib",
     "targets": [
-      "codegen",
+      [
+        "custom",
+        {
+          "script": "nitrogen",
+          "clean": "nitrogen/"
+        }
+      ],
       [
         "module",
         {
@@ -151,22 +168,9 @@
       ]
     ]
   },
-  "codegenConfig": {
-    "name": "RNZstdSpec",
-    "type": "modules",
-    "jsSrcsDir": "src",
-    "outputDir": {
-      "ios": "ios/generated",
-      "android": "android/generated"
-    },
-    "android": {
-      "javaPackageName": "com.reactnativezstd"
-    },
-    "includesGeneratedCode": true
-  },
   "create-react-native-library": {
-    "type": "turbo-module",
-    "languages": "cpp",
-    "version": "0.49.8"
+    "type": "nitro-module",
+    "languages": "kotlin-swift",
+    "version": "0.56.0"
   }
 }

@@ -1,5 +1,4 @@
 buildscript {
-
   ext.getExtOrDefault = {name ->
     return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['Zstd_' + name]
   }
@@ -23,38 +22,18 @@ def reactNativeArchitectures() {
 
 apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
+apply from: '../nitrogen/generated/android/reactnativezstd+autolinking.gradle'
 
 apply plugin: "com.facebook.react"
-
 
 def getExtOrIntegerDefault(name) {
   return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["Zstd_" + name]).toInteger()
 }
 
-def supportsNamespace() {
-  def parsed = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize('.')
-  def major = parsed[0].toInteger()
-  def minor = parsed[1].toInteger()
-
-  // Namespace support was added in 7.3.0
-  return (major == 7 && minor >= 3) || major >= 8
-}
-
-
 android {
+  namespace "com.margelo.nitro.zstd"
 
-  if (supportsNamespace()) {
-    namespace "com.reactnativezstd"
-
-    sourceSets {
-      main {
-        manifest.srcFile "src/main/AndroidManifestNew.xml"
-      }
-    }
-  }
-
-  ndkVersion getExtOrDefault('ndkVersion')
-  compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
+  compileSdkVersion getExtOrIntegerDefault("compileSdkVersion")
 
   defaultConfig {
     minSdkVersion getExtOrIntegerDefault("minSdkVersion")
@@ -63,7 +42,7 @@ android {
     externalNativeBuild {
       cmake {
         cppFlags "-frtti -fexceptions -Wall -fstack-protector-all"
-        arguments "-DANDROID_STL=c++_shared"
+        arguments "-DANDROID_STL=c++_shared", "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
         abiFilters (*reactNativeArchitectures())
 
         buildTypes {
@@ -78,45 +57,46 @@ android {
     }
   }
 
-// TODO: can remove ?
-//   packagingOptions {
-//     excludes = [
-//       "**/libc++_shared.so",
-//       "**/libfbjni.so",
-//     ]
-//     doNotStrip '**/*.so'
-//   }
-
   externalNativeBuild {
     cmake {
       path "CMakeLists.txt"
     }
   }
 
-  buildFeatures {
-    buildConfig true
+  packagingOptions {
+    excludes = [
+      "META-INF",
+      "META-INF/**",
+      "**/libc++_shared.so",
+      "**/libfbjni.so",
+      "**/libjsi.so",
+      "**/libfolly_json.so",
+      "**/libfolly_runtime.so",
+      "**/libglog.so",
+      "**/libhermes.so",
+      "**/libhermes-executor-debug.so",
+      "**/libhermes_executor.so",
+      "**/libreactnative.so",
+      "**/libreactnativejni.so",
+      "**/libturbomodulejsijni.so",
+      "**/libreact_nativemodule_core.so",
+      "**/libjscexecutor.so"
+    ]
   }
 
+  buildFeatures {
+    buildConfig true
+    prefab true
+  }
 
   buildTypes {
     release {
       minifyEnabled false
     }
-    debug {
-      // Needed for breakpoints to work
-      packagingOptions {
-        doNotStrip '**/*.so'
-      }
-      //
-      minifyEnabled false
-      debuggable true
-      jniDebuggable true
-      renderscriptDebuggable true
-    }
   }
 
   lintOptions {
-    disable 'GradleCompatible'
+    disable "GradleCompatible"
   }
 
   compileOptions {
@@ -132,7 +112,6 @@ android {
       ]
     }
   }
-
 }
 
 repositories {
@@ -140,17 +119,10 @@ repositories {
   google()
 }
 
-
-
 def kotlin_version = getExtOrDefault("kotlinVersion")
 
 dependencies {
   implementation "com.facebook.react:react-android"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-}
-
-react {
-  jsRootDir = file("../src/")
-  libraryName = "Reactnativezstd"
-  codegenJavaPackageName = "com.reactnativezstd"
+  implementation project(":react-native-nitro-modules")
 }
