@@ -1,12 +1,16 @@
-/**
- * @type {import('@react-native-community/cli-types').UserDependencyConfig}
- */
+// https://github.com/react-native-community/cli/blob/main/docs/dependencies.md
+
 module.exports = {
   dependency: {
     platforms: {
-      android: {
-        cmakeListsPath: 'generated/jni/CMakeLists.txt',
-      },
+      /**
+       * @type {import('@react-native-community/cli-types').IOSDependencyParams}
+       */
+      ios: {},
+      /**
+       * @type {import('@react-native-community/cli-types').AndroidDependencyParams}
+       */
+      android: {},
     },
   },
 };

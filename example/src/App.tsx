@@ -12,6 +12,7 @@ export default function App() {
   const _onChangeText = React.useCallback((_text: string) => {
     setText(_text);
     const compressed = compress(_text, 3);
+    // Convert ArrayBuffer to base64
     setResult(Buffer.from(compressed).toString('base64'));
     try {
       const _decompressed: string = decompress(compressed);

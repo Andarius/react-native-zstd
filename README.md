@@ -1,33 +1,42 @@
 # react-native-zstd
-ZSTD bindings for React-Native
 
+ZSTD compression bindings for React Native, powered by [Nitro Modules](https://github.com/mrousavy/nitro).
 
 ## Installation
 
 ```sh
-npm install react-native-zstd
+yarn add react-native-zstd react-native-nitro-modules
 ```
-or
-```sh
-yarn add react-native-zstd
-```
+
+For iOS, run `pod install` in your `ios` directory.
 
 ## Usage
 
 ```ts
-import { compress, decompress } from "react-native-zstd";
-import { Buffer } from 'buffer';
+import { compress, decompress } from 'react-native-zstd';
 
-// Compress
-const compressionLevel: number = 3;
-const compressed = compress("Hello World!", compressionLevel);
-console.log(Buffer.from(compressed).toString('base64'))
+// Compress a string (returns ArrayBuffer)
+const compressed = compress('Hello World!', 3);
 
-// Decompress
-const decompressed: string = decompress(compressed);
-console.log(`decompressed: ${decompressed}`)
-
+// Decompress back to string
+const decompressed = decompress(compressed);
+console.log(decompressed); // "Hello World!"
 ```
+
+### API
+
+#### `compress(data: string, compressionLevel?: number): ArrayBuffer`
+
+Compresses a UTF-8 string using ZSTD.
+
+- `data` - The string to compress
+- `compressionLevel` - Compression level (default: 3). Higher = better compression, slower speed.
+
+#### `decompress(data: ArrayBuffer): string`
+
+Decompresses ZSTD-compressed data back to a UTF-8 string.
+
+- `data` - The compressed data as an ArrayBuffer
 
 ## Contributing
 
