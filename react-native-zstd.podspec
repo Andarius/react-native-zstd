@@ -21,6 +21,11 @@ Pod::Spec.new do |s|
     "externals/zstd/lib/decompress/*.{h,c,S}"
   ]
 
+  # Required for ZSTD internal headers that use ZSTD_customMem and other advanced types
+  s.pod_target_xcconfig = {
+    "GCC_PREPROCESSOR_DEFINITIONS" => "ZSTD_STATIC_LINKING_ONLY=1"
+  }
+
   load 'nitrogen/generated/ios/Zstd+autolinking.rb'
   add_nitrogen_files(s)
 
