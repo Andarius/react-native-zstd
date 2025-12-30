@@ -15,8 +15,7 @@
 #include <fbjni/fbjni.h>
 #include <NitroModules/HybridObjectRegistry.hpp>
 
-#include "JHybridZstdSpec.hpp"
-#include <NitroModules/DefaultConstructableObject.hpp>
+#include "HybridZstd.hpp"
 
 namespace margelo::nitro::zstd {
 
@@ -27,15 +26,16 @@ int initialize(JavaVM* vm) {
 
   return facebook::jni::initialize(vm, [] {
     // Register native JNI methods
-    margelo::nitro::zstd::JHybridZstdSpec::registerNatives();
+    
 
     // Register Nitro Hybrid Objects
     HybridObjectRegistry::registerHybridObjectConstructor(
       "Zstd",
       []() -> std::shared_ptr<HybridObject> {
-        static DefaultConstructableObject<JHybridZstdSpec::javaobject> object("com/margelo/nitro/zstd/HybridZstd");
-        auto instance = object.create();
-        return instance->cthis()->shared();
+        static_assert(std::is_default_constructible_v<HybridZstd>,
+                      "The HybridObject \"HybridZstd\" is not default-constructible! "
+                      "Create a public constructor that takes zero arguments to be able to autolink this HybridObject.");
+        return std::make_shared<HybridZstd>();
       }
     );
   });

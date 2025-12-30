@@ -8,16 +8,10 @@
 #pragma once
 
 // Forward declarations of C++ defined types
-// Forward declaration of `HybridZstdSpec` to properly resolve imports.
-namespace margelo::nitro::zstd { class HybridZstdSpec; }
+
 
 // Include C++ defined types
-#include "HybridZstdSpec.hpp"
-#include <NitroModules/ArrayBuffer.hpp>
-#include <NitroModules/Result.hpp>
-#include <exception>
-#include <memory>
-#include <string>
+
 
 // C++ helpers for Swift
 #include "Zstd-Swift-Cxx-Bridge.hpp"
@@ -29,8 +23,7 @@ namespace margelo::nitro::zstd { class HybridZstdSpec; }
 #include <NitroModules/DateToChronoDate.hpp>
 
 // Forward declarations of Swift defined types
-// Forward declaration of `HybridZstdSpec_cxx` to properly resolve imports.
-namespace Zstd { class HybridZstdSpec_cxx; }
+
 
 // Include Swift defined types
 #if __has_include("Zstd-Swift.h")

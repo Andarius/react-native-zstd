@@ -9,8 +9,7 @@
   },
   "autolinking": {
     "Zstd": {
-      "swift": "HybridZstd",
-      "kotlin": "HybridZstd"
+      "cpp": "HybridZstd"
     }
   },
   "ignorePaths": ["node_modules", "externals"]

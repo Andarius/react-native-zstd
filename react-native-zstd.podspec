@@ -14,19 +14,14 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/Andarius/react-native-zstd.git", :tag => "#{s.version}" }
 
   s.source_files = [
-    "ios/**/*.{swift}",
-    "ios/**/*.{h,m,mm}",
-    "cpp/**/*.{h,cpp}",
+    "cpp/**/*.{h,hpp,cpp}",
     "externals/zstd/lib/zstd.h",
     "externals/zstd/lib/common/*.{h,c}",
     "externals/zstd/lib/compress/*.{h,c}",
     "externals/zstd/lib/decompress/*.{h,c,S}"
   ]
 
-  s.dependency 'React-jsi'
-  s.dependency 'React-callinvoker'
-
-  load 'nitrogen/generated/ios/react-native-zstd+autolinking.rb'
+  load 'nitrogen/generated/ios/Zstd+autolinking.rb'
   add_nitrogen_files(s)
 
   install_modules_dependencies(s)

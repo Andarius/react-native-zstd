@@ -31,7 +31,7 @@ def getExtOrIntegerDefault(name) {
 }
 
 android {
-  namespace "com.margelo.nitro.zstd"
+  namespace "com.reactnativezstd"
 
   compileSdkVersion getExtOrIntegerDefault("compileSdkVersion")
 

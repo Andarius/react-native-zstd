@@ -18,6 +18,7 @@ add_subdirectory(../externals/zstd/build/cmake _zstd)
 add_library(${PACKAGE_NAME} SHARED
     src/main/cpp/cpp-adapter.cpp
     ../cpp/react-native-zstd.cpp
+    ../cpp/HybridZstd.cpp
 )
 
 # Add Nitrogen specs

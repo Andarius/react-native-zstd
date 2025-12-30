@@ -7,10 +7,10 @@
 
 #import <Foundation/Foundation.h>
 #import <NitroModules/HybridObjectRegistry.hpp>
-#import "Zstd-Swift-Cxx-Umbrella.hpp"
+
 #import <type_traits>
 
-#include "HybridZstdSpecSwift.hpp"
+#include "HybridZstd.hpp"
 
 @interface ZstdAutolinking : NSObject
 @end
@@ -24,8 +24,10 @@
   HybridObjectRegistry::registerHybridObjectConstructor(
     "Zstd",
     []() -> std::shared_ptr<HybridObject> {
-      std::shared_ptr<HybridZstdSpec> hybridObject = Zstd::ZstdAutolinking::createZstd();
-      return hybridObject;
+      static_assert(std::is_default_constructible_v<HybridZstd>,
+                    "The HybridObject \"HybridZstd\" is not default-constructible! "
+                    "Create a public constructor that takes zero arguments to be able to autolink this HybridObject.");
+      return std::make_shared<HybridZstd>();
     }
   );
 }
