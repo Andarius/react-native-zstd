@@ -206,5 +206,4 @@ workflows:
             - lint
             - typescript
             - unit-tests
-            - build-android
-            - build-ios
+            - build-package
