@@ -5,6 +5,13 @@ executors:
     docker:
       - image: cimg/node:22.14.0
     working_directory: ~/project
+    resource_class: medium
+
+  macos:
+    macos:
+      xcode: "16.2.0"
+    working_directory: ~/project
+    resource_class: macos.m1.medium.gen1
 
 commands:
   attach_project:
@@ -12,36 +19,31 @@ commands:
       - attach_workspace:
           at: ~/project
 
+  install_deps:
+    steps:
+      - restore_cache:
+          keys:
+            - yarn-v1-{{ checksum "yarn.lock" }}
+            - yarn-v1-
+      - run:
+          name: Install dependencies
+          command: yarn install --immutable
+      - save_cache:
+          key: yarn-v1-{{ checksum "yarn.lock" }}
+          paths:
+            - .yarn/cache
+            - node_modules
+            - example/node_modules
+
 jobs:
   install-dependencies:
     executor: default
     steps:
       - checkout
-      - attach_project
-      - restore_cache:
-          keys:
-            - dependencies-{{ checksum "package.json" }}
-            - dependencies-
-      - restore_cache:
-          keys:
-            - dependencies-example-{{ checksum "example/package.json" }}
-            - dependencies-example-
       - run:
-          name: Cloning submodule
+          name: Clone submodules
           command: git submodule update --init --recursive
-      - run:
-          name: Install dependencies
-          command: |
-            yarn install --cwd example --frozen-lockfile
-            yarn install --frozen-lockfile
-      - save_cache:
-          key: dependencies-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-      - save_cache:
-          key: dependencies-example-{{ checksum "example/package.json" }}
-          paths:
-            - example/node_modules
+      - install_deps
       - persist_to_workspace:
           root: .
           paths:
@@ -53,8 +55,7 @@ jobs:
       - attach_project
       - run:
           name: Lint files
-          command: |
-            yarn lint
+          command: yarn lint
 
   typescript:
     executor: default
@@ -62,8 +63,7 @@ jobs:
       - attach_project
       - run:
           name: Typecheck files
-          command: |
-            yarn typecheck
+          command: yarn typecheck
 
   unit-tests:
     executor: default
@@ -71,11 +71,12 @@ jobs:
       - attach_project
       - run:
           name: Run unit tests
-          command: |
-            yarn test --coverage
+          command: yarn test --coverage
       - store_artifacts:
           path: coverage
           destination: coverage
+      - store_test_results:
+          path: coverage
 
   build-package:
     executor: default
@@ -83,8 +84,49 @@ jobs:
       - attach_project
       - run:
           name: Build package
+          command: yarn prepare
+
+  build-android:
+    executor: default
+    docker:
+      - image: cimg/android:2024.10-node
+    resource_class: large
+    steps:
+      - attach_project
+      - restore_cache:
+          keys:
+            - gradle-v1-{{ checksum "example/android/gradle/wrapper/gradle-wrapper.properties" }}
+            - gradle-v1-
+      - run:
+          name: Build Android
+          command: yarn example build:android
+      - save_cache:
+          key: gradle-v1-{{ checksum "example/android/gradle/wrapper/gradle-wrapper.properties" }}
+          paths:
+            - ~/.gradle/caches
+            - ~/.gradle/wrapper
+
+  build-ios:
+    executor: macos
+    steps:
+      - attach_project
+      - restore_cache:
+          keys:
+            - pods-v1-{{ checksum "example/ios/Podfile.lock" }}
+            - pods-v1-
+      - run:
+          name: Install CocoaPods
           command: |
-            yarn prepare
+            cd example/ios
+            bundle install
+            bundle exec pod install
+      - save_cache:
+          key: pods-v1-{{ checksum "example/ios/Podfile.lock" }}
+          paths:
+            - example/ios/Pods
+      - run:
+          name: Build iOS
+          command: yarn example build:ios
 
   release-package:
     executor: default
@@ -93,28 +135,29 @@ jobs:
       - run:
           name: Authenticate with registry
           command: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+
       - run:
-          name: Adding github.com to known hosts
+          name: Add github.com to known hosts
           command: |
             mkdir -p ~/.ssh
             ssh-keyscan github.com >> ~/.ssh/known_hosts
       - run:
-          name: Release to NPM and github
+          name: Configure git
           command: |
             git config --global user.email "julien.brayere@obitrain.com"
             git config --global user.name "CircleCI"
-            yarn release --ci
+      - run:
+          name: Release to NPM and GitHub
+          command: yarn release --ci
 
 workflows:
   build-and-test:
     when:
-      and:
-        - not:
-            matches:
-              pattern: '^main$'
-              value: << pipeline.git.branch >>
+      not:
+        equal: [main, << pipeline.git.branch >>]
     jobs:
       - install-dependencies
+      # Run these in parallel after dependencies are installed
       - lint:
           requires:
             - install-dependencies
@@ -127,6 +170,13 @@ workflows:
       - build-package:
           requires:
             - install-dependencies
+      # Native builds run after package is built
+      - build-android:
+          requires:
+            - build-package
+      - build-ios:
+          requires:
+            - build-package
 
   release:
     when:
@@ -145,9 +195,16 @@ workflows:
       - build-package:
           requires:
             - install-dependencies
+      - build-android:
+          requires:
+            - build-package
+      - build-ios:
+          requires:
+            - build-package
       - release-package:
           requires:
             - lint
             - typescript
             - unit-tests
-            - build-package
+            - build-android
+            - build-ios
