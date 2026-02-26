@@ -1,9 +1,10 @@
-package com.margelo.nitro.zstd
+package com.reactnativezstd
 
 import com.facebook.react.BaseReactPackage
 import com.facebook.react.bridge.NativeModule
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.module.model.ReactModuleInfoProvider
+import com.margelo.nitro.zstd.reactnativezstdOnLoad
 
 class ZstdPackage : BaseReactPackage() {
     override fun getModule(
