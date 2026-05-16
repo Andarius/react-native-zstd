@@ -145,9 +145,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
-          # Pinned: Node 22.22.2's bundled npm 10.9.5 ships broken in the GH
-          # toolcache (missing `promise-retry`), so `npm install -g` aborts
-          # before we can upgrade for OIDC trusted publishing.
+          # 22.22.2's bundled npm is broken in the GH toolcache (missing `promise-retry`)
           node-version: 22.21.0
 
       - name: Restore node_modules
