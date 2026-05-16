@@ -9,7 +9,10 @@
   },
   "autolinking": {
     "Zstd": {
-      "cpp": "HybridZstd"
+      "all": {
+        "language": "c++",
+        "implementationClassName": "HybridZstd"
+      }
     }
   },
   "ignorePaths": ["node_modules", "externals"]
