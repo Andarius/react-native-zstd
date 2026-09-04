@@ -1,0 +1,5 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  // policy lives in github.com/Obitrain/renovate-config (lib.json5)
+  extends: ["github>Obitrain/renovate-config:lib"],
+}
