@@ -157,7 +157,8 @@ jobs:
           key: node-modules-${{ hashFiles('yarn.lock') }}
 
       - name: Upgrade npm for OIDC trusted publishing
-        run: npm install -g npm@latest
+        # not @latest: npm 12 needs node >=22.22.2, and this job pins 22.21 (broken toolcache npm)
+        run: npm install -g npm@11
 
       - name: Configure git
         run: |
