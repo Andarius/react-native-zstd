@@ -12870,6 +12870,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-nitro-modules@npm:^0.37.1":
+  version: 0.37.1
+  resolution: "react-native-nitro-modules@npm:0.37.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: ef8a3fbf9b66bc6e5ec9db3aa2f4566600777a5d95e3f897e09e50b2fd33860a1bda4bfa54887709a6fc2ce2cc80a26d9cbb6e77f8c33aea9537c788d089638b
+  languageName: node
+  linkType: hard
+
 "react-native-zstd-example@workspace:example":
   version: 0.0.0-use.local
   resolution: "react-native-zstd-example@workspace:example"
@@ -12889,7 +12899,7 @@ __metadata:
     react-native: 0.84.1
     react-native-builder-bob: ^0.43.0
     react-native-monorepo-config: ^0.4.0
-    react-native-nitro-modules: ^0.35.10
+    react-native-nitro-modules: ^0.37.1
   languageName: unknown
   linkType: soft
 
