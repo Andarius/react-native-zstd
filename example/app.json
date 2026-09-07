@@ -1,4 +1,19 @@
 {
-  "name": "ZstdExample",
-  "displayName": "ZstdExample"
+  "expo": {
+    "name": "ZstdExample",
+    "slug": "react-native-zstd-example",
+    "version": "1.0.0",
+    "scheme": "react-native-zstd-example",
+    "ios": {
+      "bundleIdentifier": "org.reactjs.native.example.ZstdExample",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.zstdexample",
+      "allowBackup": false
+    },
+    "plugins": [
+      "expo-dev-client"
+    ]
+  }
 }

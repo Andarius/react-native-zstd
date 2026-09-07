@@ -84,3 +84,8 @@ CLAUDE.md
 .claude/
 GEMINI.md
 .gemini/
+
+# Generated Expo example projects
+/example/ios/
+/example/android/
+/example/dist/
