@@ -15,6 +15,7 @@
     "buffer": "^6.0.3",
     "expo": "~57.0.20",
     "expo-dev-client": "~57.0.0",
+    "expo-font": "~57.0.3",
     "react": "19.2.3",
     "react-native": "0.86.3",
     "react-native-nitro-modules": "^0.35.10"
@@ -27,7 +28,8 @@
     "babel-preset-expo": "~57.0.10",
     "react-native-builder-bob": "^0.43.0",
     "react-native-monorepo-config": "^0.4.0",
-    "react-refresh": "^0.14.2"
+    "react-refresh": "^0.14.2",
+    "zstdify": "^1.4.0"
   },
   "engines": {
     "node": ">=20.20.2"
