@@ -1,0 +1,102 @@
+name: Expo example
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  expo-checks:
+    runs-on: ubuntu-latest
+    env:
+      CI: '1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          submodules: recursive
+
+      - name: Setup Node.js
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build local library
+        run: yarn prepare
+
+      - name: Check Expo dependencies
+        working-directory: example
+        run: npx --yes expo-doctor@1.20.4 --verbose
+
+      - name: Export native bundles
+        run: yarn example export
+
+  build-android:
+    runs-on: ubuntu-latest
+    env:
+      CI: '1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          submodules: recursive
+
+      - name: Setup Node.js
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build local library
+        run: yarn prepare
+
+      - name: Install JDK
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+        with:
+          distribution: zulu
+          java-version: '17'
+
+      - name: Generate Android project
+        run: yarn example prebuild --clean --no-install --platform android
+
+      - name: Build Android example
+        run: yarn example build:android
+
+  build-ios:
+    runs-on: macos-latest
+    env:
+      CI: '1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          submodules: recursive
+
+      - name: Setup Node.js
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build local library
+        run: yarn prepare
+
+      - name: Use Xcode 26
+        uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd # v1.6.0
+        with:
+          xcode-version: '26'
+
+      - name: Generate iOS project
+        run: yarn example prebuild --clean --no-install --platform ios
+
+      - name: Install CocoaPods dependencies
+        working-directory: example/ios
+        run: pod install
+
+      - name: Build iOS example
+        run: yarn example build:ios
+
