@@ -21,14 +21,14 @@
     "react-native-nitro-modules": "^0.35.10"
   },
   "devDependencies": {
-    "@babel/core": "^7.29.0",
-    "@babel/preset-env": "^7.25.3",
-    "@babel/runtime": "^7.25.0",
+    "@babel/core": "^7.29.7",
+    "@babel/preset-env": "^7.29.7",
+    "@babel/runtime": "^7.29.7",
     "@types/react": "^19.2.18",
     "babel-preset-expo": "~57.0.10",
     "react-native-builder-bob": "^0.43.0",
     "react-native-monorepo-config": "^0.4.0",
-    "react-refresh": "^0.14.2",
+    "react-refresh": "^0.18.0",
     "zstdify": "^1.4.0"
   },
   "engines": {
