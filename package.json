@@ -99,7 +99,7 @@
     "react-native-nitro-modules": "^0.37.1",
     "release-it": "^21.0.2",
     "turbo": "^2.10.12",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "peerDependencies": {
     "react": "*",
