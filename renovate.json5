@@ -22,6 +22,24 @@
         "major"
       ],
       "dependencyDashboardApproval": true
+    },
+    // Expo SDK 57: review these caps when upgrading the SDK and lint toolchain.
+    {
+      "matchPackageNames": ["@babel/core", "@babel/preset-env", "@babel/runtime"],
+      "allowedVersions": "<8"
+    },
+    {
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "<7"
+    },
+    {
+      "matchPackageNames": ["eslint", "@eslint/js"],
+      "allowedVersions": "<10"
+    },
+    {
+      "matchPackageNames": ["expo"],
+      "matchUpdateTypes": ["major"],
+      "prBodyNotes": ["Review the Babel, TypeScript, and ESLint caps in renovate.json5 for this Expo SDK upgrade. Lift them only after Expo Doctor, lint, typecheck, and example builds pass."]
     }
   ]
 }
