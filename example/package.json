@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "buffer": "^6.0.3",
-    "expo": "~57.0.21",
-    "expo-dev-client": "~57.0.0",
-    "expo-font": "~57.0.3",
+    "expo": "~57.0.24",
+    "expo-dev-client": "~57.0.19",
+    "expo-font": "~57.0.4",
     "react": "19.2.3",
     "react-native": "0.86.3",
     "react-native-nitro-modules": "^0.37.1"
@@ -25,7 +25,7 @@
     "@babel/preset-env": "^7.29.7",
     "@babel/runtime": "^7.29.7",
     "@types/react": "^19.2.18",
-    "babel-preset-expo": "~57.0.11",
+    "babel-preset-expo": "~57.0.12",
     "react-native-builder-bob": "^0.43.0",
     "react-native-monorepo-config": "^0.4.0",
     "react-refresh": "^0.18.0",
