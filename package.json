@@ -49,7 +49,7 @@
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib nitrogen",
     "prepare": "bob build",
     "nitrogen": "nitrogen",
-    "release": "release-it",
+    "release": "bash scripts/release-pr.sh",
     "bootstrap": "git submodule update --init --recursive && yarn example install",
     "pod:install": "cd example/ios && pod install",
     "pod:deintegrate": "cd example/ios && pod deintegrate && rm -rf Pods && rm Podfile.lock"
@@ -79,7 +79,6 @@
     "@react-native/babel-preset": "0.86.3",
     "@react-native/eslint-config": "0.86.3",
     "@react-native/jest-preset": "0.86.3",
-    "@release-it/conventional-changelog": "12.0.2",
     "@types/jest": "^30.0.0",
     "@types/react": "^19.2.18",
     "commitlint": "^21.2.3",
@@ -97,7 +96,6 @@
     "react-native": "0.86.3",
     "react-native-builder-bob": "^0.43.1",
     "react-native-nitro-modules": "^0.37.1",
-    "release-it": "^21.1.0",
     "turbo": "^2.11.2",
     "typescript": "^6.0.3"
   },
@@ -121,25 +119,6 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
-  },
-  "release-it": {
-    "git": {
-      "commitMessage": "chore: release ${version} [skip ci]",
-      "tagName": "v${version}"
-    },
-    "npm": {
-      "publish": true
-    },
-    "github": {
-      "release": true
-    },
-    "plugins": {
-      "@release-it/conventional-changelog": {
-        "preset": {
-          "name": "angular"
-        }
-      }
-    }
   },
   "prettier": {
     "quoteProps": "consistent",
