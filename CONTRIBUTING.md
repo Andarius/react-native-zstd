@@ -99,13 +99,16 @@ Our pre-commit hooks verify that the linter and tests pass when committing.
 
 ### Publishing to npm
 
-We use [release-it](https://github.com/release-it/release-it) to make it easier to publish new versions. It handles common tasks like bumping version based on semver, creating tags and releases etc.
-
-To publish new versions, run the following:
+Merging to `main` never publishes. To release, open a release PR:
 
 ```sh
-yarn release
+yarn release 1.5.0
 ```
+
+It bumps `package.json` on a `release/1.5.0` branch, adds a `CHANGELOG.md` entry and opens a PR whose
+description (drafted from the commits since the last tag) becomes the release notes — edit it before
+merging. Merging the PR publishes to npm, tags `v1.5.0` and creates the GitHub release
+(`.github/workflows/release.yml`).
 
 ### Scripts
 

@@ -1,0 +1,91 @@
+# Releases only when a release/<version> PR merges (open one with scripts/release-pr.sh): npm publish via
+# trusted publishing (the npmjs.com trusted publisher must point at this file), tag v<version>, GitHub
+# release with the PR description as notes. Dispatch re-runs an existing release; every step is idempotent.
+name: Release
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Existing version to re-publish (e.g. 1.5.0)
+        required: true
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.event.pull_request.head.ref, 'release/'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve version
+        id: v
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          VERSION="${INPUT_VERSION:-${HEAD_REF#release/}}"
+          VERSION="${VERSION#v}"
+          [[ $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]] || { echo "not a semver: '$VERSION'"; exit 1; }
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          ref: ${{ inputs.version && format('v{0}', steps.v.outputs.version) || github.event.pull_request.merge_commit_sha }}
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        with:
+          # 22.22.2's bundled npm is broken in the GH toolcache (missing `promise-retry`)
+          node-version: 22.21.0
+          registry-url: https://registry.npmjs.org
+
+      - name: Upgrade npm for OIDC trusted publishing
+        # not @latest: npm 12 needs node >=22.22.2
+        run: npm install -g npm@11
+
+      - run: yarn install --immutable
+
+      - name: package.json must match the release version
+        env:
+          VERSION: ${{ steps.v.outputs.version }}
+        run: test "$(node -p "require('./package.json').version")" = "$VERSION"
+
+      - name: Build package
+        run: yarn prepare
+
+      - name: Publish to npm
+        env:
+          VERSION: ${{ steps.v.outputs.version }}
+        run: |
+          if npm view "$(node -p "require('./package.json').name")@$VERSION" version >/dev/null 2>&1; then
+            echo "$VERSION already on npm, skipping"
+          else
+            npm publish --provenance --access public
+          fi
+
+      - name: Tag and GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.v.outputs.version }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          TAG="v$VERSION"
+          git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null || { git tag "$TAG" && git push origin "$TAG"; }
+          if gh release view "$TAG" >/dev/null 2>&1; then echo "release $TAG exists"; exit 0; fi
+          if [ -n "$PR_BODY" ]; then
+            printf '%s\n' "$PR_BODY" > notes.md
+            gh release create "$TAG" --title "$TAG" --notes-file notes.md
+          else
+            gh release create "$TAG" --title "$TAG" --generate-notes
+          fi
