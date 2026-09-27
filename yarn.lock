@@ -12072,7 +12072,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^3.9.8":
+"prettier@npm:^3.9.9":
   version: 3.9.9
   resolution: "prettier@npm:3.9.9"
   bin:
@@ -12315,7 +12315,7 @@ __metadata:
     jest: "npm:^30.5.2"
     lefthook: "npm:^2.1.14"
     nitrogen: "npm:^0.37.1"
-    prettier: "npm:^3.9.8"
+    prettier: "npm:^3.9.9"
     react: "npm:19.2.8"
     react-native: "npm:0.86.3"
     react-native-builder-bob: "npm:^0.43.1"
