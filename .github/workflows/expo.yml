@@ -29,6 +29,9 @@ jobs:
       - name: Check Expo dependencies
         working-directory: example
         run: npx --yes expo-doctor@1.20.4 --verbose
+        env:
+          # patch drift is handled by Renovate after minimumReleaseAge
+          EXPO_DOCTOR_SKIP_DEPENDENCY_VERSION_CHECK: 1
 
       - name: Export native bundles
         run: yarn example export
