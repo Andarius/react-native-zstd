@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "buffer": "^6.0.3",
-    "expo": "~57.0.30",
+    "expo": "~57.0.31",
     "expo-dev-client": "~57.0.20",
     "expo-font": "~57.0.4",
     "react": "19.2.3",
