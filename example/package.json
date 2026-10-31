@@ -26,7 +26,7 @@
     "@babel/runtime": "^7.29.10",
     "@types/react": "^19.2.18",
     "babel-preset-expo": "~57.0.16",
-    "react-native-builder-bob": "^0.43.2",
+    "react-native-builder-bob": "^0.44.1",
     "react-native-monorepo-config": "^0.4.0",
     "react-refresh": "^0.18.0",
     "zstdify": "^1.4.0"
