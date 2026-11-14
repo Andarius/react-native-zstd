@@ -1,0 +1,43 @@
+# Twice a month, opens a patch release PR when the published package changed since the last tag
+# (scripts/release-check.sh). Merging that PR publishes via release.yml.
+name: Release check
+
+on:
+  schedule:
+    - cron: '0 6 1,15 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency: release-check
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Next version
+        id: next
+        run: echo "version=$(bash scripts/release-check.sh HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Open release PR
+        if: steps.next.outputs.version != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.next.outputs.version }}
+        run: |
+          open=$(gh pr list --state open --json headRefName -q '.[].headRefName | select(startswith("release/"))')
+          if [ -n "$open" ]; then echo "release PR already open: $open"; exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898283+github-actions[bot]@users.noreply.github.com'
+          bash scripts/release-pr.sh "$VERSION"

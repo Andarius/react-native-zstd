@@ -110,6 +110,11 @@ description (drafted from the commits since the last tag) becomes the release no
 merging. Merging the PR publishes to npm, tags `v1.5.0` and creates the GitHub release
 (`.github/workflows/release.yml`).
 
+On the 1st and 15th of each month, `.github/workflows/release-check.yml` opens a patch release PR on its own
+when the published package changed since the last tag (`scripts/release-check.sh`: sources, native code,
+bundled zstd, entry points, peer deps). Dev-tooling-only changes never trigger one. CI doesn't run on that
+PR (it's opened with `GITHUB_TOKEN`). Run the workflow manually to check now.
+
 ### Scripts
 
 The `package.json` file contains various scripts for common tasks:
