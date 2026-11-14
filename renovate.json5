@@ -10,6 +10,8 @@
   "platformAutomerge": false,
   "rebaseWhen": "behind-base-branch",
   "ignoreTests": false,
+  // zstd release tags, read from `branch` in .gitmodules
+  "git-submodules": { "enabled": true },
   "packageRules": [
     {
       "matchPackageNames": [
@@ -40,6 +42,12 @@
       "matchPackageNames": ["expo"],
       "matchUpdateTypes": ["major"],
       "prBodyNotes": ["Review the Babel, TypeScript, and ESLint caps in renovate.json5 for this Expo SDK upgrade. Lift them only after Expo Doctor, lint, typecheck, and example builds pass."]
+    },
+    // last so it beats the automerge-all rule: zstd bumps ship to users, review them
+    {
+      "matchManagers": ["git-submodules"],
+      "semanticCommitType": "fix",
+      "automerge": false
     }
   ]
 }
