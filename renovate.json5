@@ -7,7 +7,7 @@
   "automerge": true,
   "automergeType": "pr",
   "automergeStrategy": "squash",
-  "platformAutomerge": false,
+  "platformAutomerge": true,
   "rebaseWhen": "behind-base-branch",
   "ignoreTests": false,
   // zstd release tags, read from `branch` in .gitmodules
